@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CT Arena Clash</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: MAIN MENU
+  ═══════════════════════════════════════════ -->
+  <div id="screen-mainmenu" class="screen active">
+    <div class="menu-bg-grid"></div>
+    <div class="menu-scanlines"></div>
+    <div class="menu-center">
+      <div class="title-badge">WEB3 CREATOR TOURNAMENT</div>
+      <h1 class="game-title">
+        <span class="title-ct">CT</span>
+        <span class="title-arena">ARENA</span>
+        <span class="title-clash">CLASH</span>
+      </h1>
+      <p class="game-subtitle">12 Creators. 11 Battles. One Champion.</p>
+      <div class="menu-buttons">
+        <button class="btn btn-primary" id="btn-start">⚔ START TOURNAMENT</button>
+        <button class="btn btn-secondary" id="btn-howtoplay">? HOW TO PLAY</button>
+      </div>
+      <div class="menu-stats" id="menu-stats"></div>
+    </div>
+    <div class="arena-floor-glow"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: HOW TO PLAY
+  ═══════════════════════════════════════════ -->
+  <div id="screen-howtoplay" class="screen">
+    <div class="menu-bg-grid"></div>
+    <div class="htp-container">
+      <h2 class="section-title">HOW TO PLAY</h2>
+      <div class="htp-grid">
+        <div class="htp-card">
+          <div class="htp-icon">🎮</div>
+          <h3>Desktop Controls</h3>
+          <ul>
+            <li><kbd>A</kbd> / <kbd>←</kbd> Move Left</li>
+            <li><kbd>D</kbd> / <kbd>→</kbd> Move Right</li>
+            <li><kbd>W</kbd> / <kbd>↑</kbd> Jump</li>
+            <li><kbd>J</kbd> Punch</li>
+            <li><kbd>K</kbd> Kick</li>
+            <li><kbd>L</kbd> Special Ability</li>
+            <li><kbd>Shift</kbd> Dodge</li>
+          </ul>
+        </div>
+        <div class="htp-card">
+          <div class="htp-icon">🏆</div>
+          <h3>Tournament Rules</h3>
+          <ul>
+            <li>11 levels, 1v1 fights each</li>
+            <li>Best-of-3 rounds per match</li>
+            <li>Win 2 rounds to win the match</li>
+            <li>Lose the match = Game Over</li>
+            <li>Clear all 11 levels = Champion!</li>
+          </ul>
+        </div>
+        <div class="htp-card">
+          <div class="htp-icon">⚡</div>
+          <h3>Combat Tips</h3>
+          <ul>
+            <li>Punch: Short range, fast</li>
+            <li>Kick: Long range, knockback</li>
+            <li>Special: Unique per fighter</li>
+            <li>Dodge: Temporary invincibility</li>
+            <li>Watch the cooldown timer!</li>
+          </ul>
+        </div>
+        <div class="htp-card">
+          <div class="htp-icon">⏱</div>
+          <h3>Round Rules</h3>
+          <ul>
+            <li>60-second timer per round</li>
+            <li>Health hits 0 = round loss</li>
+            <li>Time's up: higher HP wins</li>
+            <li>Round 3 if 1–1 tie</li>
+          </ul>
+        </div>
+      </div>
+      <button class="btn btn-secondary" id="btn-htp-back">← BACK</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: CHARACTER SELECT
+  ═══════════════════════════════════════════ -->
+  <div id="screen-charselect" class="screen">
+    <div class="menu-bg-grid"></div>
+    <div class="charselect-container">
+      <h2 class="section-title">SELECT YOUR FIGHTER</h2>
+      <p class="charselect-hint">Choose wisely — you'll face all other 11 fighters.</p>
+      <div class="fighter-grid" id="fighter-grid"></div>
+      <div class="charselect-footer">
+        <div class="selected-preview" id="selected-preview">
+          <span class="preview-label">No fighter selected</span>
+        </div>
+        <div class="charselect-btns">
+          <button class="btn btn-secondary" id="btn-cs-back">← BACK</button>
+          <button class="btn btn-primary" id="btn-cs-start" disabled>START TOURNAMENT →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: TOURNAMENT LADDER
+  ═══════════════════════════════════════════ -->
+  <div id="screen-ladder" class="screen">
+    <div class="menu-bg-grid"></div>
+    <div class="ladder-container">
+      <h2 class="section-title">TOURNAMENT LADDER</h2>
+      <div class="ladder-layout">
+        <div class="ladder-player-panel">
+          <div class="ladder-label">YOUR FIGHTER</div>
+          <div class="ladder-player-card" id="ladder-player-card"></div>
+        </div>
+        <div class="ladder-opponents-panel">
+          <div class="ladder-label">OPPONENTS <span id="ladder-level-indicator"></span></div>
+          <div class="ladder-list" id="ladder-list"></div>
+        </div>
+      </div>
+      <div class="ladder-footer">
+        <button class="btn btn-secondary" id="btn-ladder-menu">⌂ MENU</button>
+        <button class="btn btn-primary" id="btn-ladder-fight">⚔ ENTER FIGHT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: FIGHT
+  ═══════════════════════════════════════════ -->
+  <div id="screen-fight" class="screen">
+    <!-- HUD -->
+    <div class="fight-hud">
+      <div class="fighter-hud player-hud">
+        <div class="hud-name" id="hud-player-name">Player</div>
+        <div class="health-bar-wrap">
+          <div class="health-bar" id="health-bar-player">
+            <div class="health-fill" id="health-fill-player"></div>
+            <div class="health-text" id="health-text-player">100</div>
+          </div>
+        </div>
+        <div class="round-wins" id="round-wins-player"></div>
+      </div>
+
+      <div class="fight-center-hud">
+        <div class="round-indicator" id="round-indicator">ROUND 1</div>
+        <div class="fight-timer" id="fight-timer">60</div>
+        <div class="match-score" id="match-score">0 — 0</div>
+      </div>
+
+      <div class="fighter-hud bot-hud">
+        <div class="round-wins" id="round-wins-bot"></div>
+        <div class="health-bar-wrap">
+          <div class="health-bar reversed" id="health-bar-bot">
+            <div class="health-fill" id="health-fill-bot"></div>
+            <div class="health-text" id="health-text-bot">100</div>
+          </div>
+        </div>
+        <div class="hud-name" id="hud-bot-name">Bot</div>
+      </div>
+    </div>
+
+    <!-- Arena -->
+    <div class="arena-wrap" id="arena-wrap">
+      <div class="arena-bg">
+        <div class="arena-bg-layer layer1"></div>
+        <div class="arena-bg-layer layer2"></div>
+        <div class="arena-crowd"></div>
+      </div>
+      <canvas id="fight-canvas"></canvas>
+      <div class="arena-floor"></div>
+      <div class="arena-floor-glow"></div>
+
+      <!-- Special FX overlay -->
+      <div class="fx-layer" id="fx-layer"></div>
+      <!-- Screen shake wrapper -->
+    </div>
+
+    <!-- Cooldown & Special -->
+    <div class="special-bar-wrap">
+      <div class="special-label" id="special-label">SPECIAL</div>
+      <div class="special-bar">
+        <div class="special-fill" id="special-fill"></div>
+      </div>
+      <div class="special-ready" id="special-ready">READY</div>
+    </div>
+
+    <!-- Mobile Controls -->
+    <div class="mobile-controls" id="mobile-controls">
+      <div class="mobile-row">
+        <button class="mctrl-btn" id="mc-left">◀</button>
+        <button class="mctrl-btn" id="mc-right">▶</button>
+        <button class="mctrl-btn" id="mc-jump">▲</button>
+        <button class="mctrl-btn" id="mc-dodge">◈</button>
+      </div>
+      <div class="mobile-row">
+        <button class="mctrl-btn attack-btn" id="mc-punch">PUNCH</button>
+        <button class="mctrl-btn attack-btn" id="mc-kick">KICK</button>
+        <button class="mctrl-btn special-btn" id="mc-special">SPECIAL</button>
+      </div>
+    </div>
+
+    <!-- Desktop controls hint -->
+    <div class="controls-hint">
+      <span>A/D Move</span><span>W Jump</span><span>J Punch</span><span>K Kick</span><span>L Special</span><span>Shift Dodge</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: ROUND RESULT
+  ═══════════════════════════════════════════ -->
+  <div id="screen-roundresult" class="screen overlay-screen">
+    <div class="result-card" id="round-result-card">
+      <div class="result-badge" id="result-badge">ROUND OVER</div>
+      <h2 id="round-result-title">Player Wins Round!</h2>
+      <div class="result-score" id="result-score-display"></div>
+      <button class="btn btn-primary" id="btn-round-continue">CONTINUE →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: MATCH VICTORY
+  ═══════════════════════════════════════════ -->
+  <div id="screen-matchvictory" class="screen overlay-screen">
+    <div class="result-card victory-card">
+      <div class="result-badge gold-badge">MATCH VICTORY</div>
+      <h2 id="matchvic-title">Level Complete!</h2>
+      <div class="matchvic-details" id="matchvic-details"></div>
+      <button class="btn btn-primary" id="btn-matchvic-continue">CONTINUE TO LADDER →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: GAME OVER
+  ═══════════════════════════════════════════ -->
+  <div id="screen-gameover" class="screen overlay-screen">
+    <div class="result-card gameover-card">
+      <div class="result-badge red-badge">GAME OVER</div>
+      <h2 id="gameover-title">Defeated</h2>
+      <div class="gameover-details" id="gameover-details"></div>
+      <div class="gameover-btns">
+        <button class="btn btn-secondary" id="btn-go-menu">⌂ MAIN MENU</button>
+        <button class="btn btn-primary" id="btn-go-retry">↺ RETRY TOURNAMENT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: CHAMPION
+  ═══════════════════════════════════════════ -->
+  <div id="screen-champion" class="screen">
+    <div class="menu-bg-grid"></div>
+    <div class="champion-container">
+      <div class="champion-top">
+        <div class="champion-crown">👑</div>
+        <h1 class="champion-title">CT ARENA CHAMPION</h1>
+        <div class="champion-fighter" id="champion-fighter-display"></div>
+      </div>
+      <h3 class="defeated-label">DEFEATED FIGHTERS</h3>
+      <div class="defeated-list" id="defeated-list"></div>
+      <button class="btn btn-primary" id="btn-champ-menu">⌂ MAIN MENU</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
